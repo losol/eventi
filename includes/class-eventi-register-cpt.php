@@ -26,11 +26,8 @@ class Eventi_Register_Cpt {
 		$this->eventi_styles_and_scripts();
 
 		// Save post
-		add_action( 'save_post', 'save_tf_events' );
-		//add_filter( 'post_updated_messages', 'events_updated_messages' );
-
-		
-
+		add_action( 'save_post', array( $this, 'save_eventi_event' ) );
+		add_filter( 'post_updated_messages', array( $this, 'events_updated_messages' ) );
 	}
 
 	function eventi_register_cpt() {
@@ -57,15 +54,15 @@ class Eventi_Register_Cpt {
 			'show_ui'           => true,
 			'_builtin'          => false,
 			'capability_type'   => 'post',
-			'menu_icon'         => get_bloginfo( 'template_url' ) . '/functions/images/event_16.png',
+			'menu_icon'         => 'dashicons-calendar-alt',
 			'hierarchical'      => false,
 			'rewrite'           => array( 'slug' => 'events' ),
 			'supports'          => array( 'title', 'thumbnail', 'excerpt', 'editor' ),
 			'show_in_nav_menus' => true,
-			'taxonomies'        => array( 'tf_eventcategory', 'post_tag' ),
+			'taxonomies'        => array( 'eventi_eventcategory', 'post_tag' ),
 		);
 
-		register_post_type( 'eventi_events', $args );
+		register_post_type( 'eventi_event', $args );
 
 	}
 
@@ -90,7 +87,7 @@ class Eventi_Register_Cpt {
 
 		register_taxonomy(
 			'eventi_eventcategory',
-			'eventi_events',
+			'eventi_event',
 			array(
 				'label'        => __( 'Event Category' ),
 				'labels'       => $labels,
@@ -174,7 +171,7 @@ class Eventi_Register_Cpt {
 	}
 
 	function eventi_add_metabox() {
-		add_meta_box( 'eventi_render_admin_metabox', 'Event time', array( $this, 'eventi_render_admin_metabox' ), 'eventi_events' );
+		add_meta_box( 'eventi_render_admin_metabox', 'Event time', array( $this, 'eventi_render_admin_metabox' ), 'eventi_event' );
 	}
 
 	function eventi_render_admin_metabox() {
@@ -205,8 +202,8 @@ class Eventi_Register_Cpt {
 		$clean_et = date( $time_format, $meta_et );
 
 		// - security -
-		echo '<input type="hidden" name="tf-events-nonce" id="tf-events-nonce" value="' .
-		wp_create_nonce( 'tf-events-nonce' ) . '" />';
+		echo '<input type="hidden" name="eventi-events-nonce" id="eventi-events-nonce" value="' .
+		wp_create_nonce( 'eventi-events-nonce' ) . '" />';
 		// - output -
 		?>
 			<div class="tf-meta">
@@ -231,7 +228,7 @@ class Eventi_Register_Cpt {
 
 	function events_styles() {
 		global $post_type;
-		if ( 'eventi_events' != $post_type ) {
+		if ( 'eventi_event' != $post_type ) {
 			return;
 		}
 		wp_enqueue_style( 'jquery-ui-datepicker-style', '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' );
@@ -240,7 +237,7 @@ class Eventi_Register_Cpt {
 
 	function events_scripts() {
 		global $post_type;
-		if ( 'eventi_events' != $post_type ) {
+		if ( 'eventi_event' != $post_type ) {
 			return;
 		}
 
@@ -249,12 +246,12 @@ class Eventi_Register_Cpt {
 
 
 
-	function save_tf_events() {
+	function save_eventi_event() {
 
 		global $post;
 
 		// - still require nonce
-		if ( ! wp_verify_nonce( $_POST['tf-events-nonce'], 'tf-events-nonce' ) ) {
+		if ( ! wp_verify_nonce( $_POST['eventi-events-nonce'], 'eventi-events-nonce' ) ) {
 			return $post->ID;
 		}
 
@@ -263,17 +260,17 @@ class Eventi_Register_Cpt {
 		}
 
 		// - convert back to unix & update post
-		if ( ! isset( $_POST['tf_events_startdate'] ) ) :
+		if ( ! isset( $_POST['eventi_startdate'] ) ) :
 			return $post;
-	endif;
-		$updatestartd = strtotime( $_POST['tf_events_startdate'] . $_POST['tf_events_starttime'] );
-		update_post_meta( $post->ID, 'tf_events_startdate', $updatestartd );
+		endif;
+		$updatestartd = strtotime( $_POST['eventi_startdate'] . $_POST['eventi_starttime'] );
+		update_post_meta( $post->ID, 'eventi_startdate', $updatestartd );
 
-		if ( ! isset( $_POST['tf_events_enddate'] ) ) :
+		if ( ! isset( $_POST['eventi_enddate'] ) ) :
 			return $post;
-	endif;
-		$updateendd = strtotime( $_POST['tf_events_enddate'] . $_POST['tf_events_endtime'] );
-		update_post_meta( $post->ID, 'tf_events_enddate', $updateendd );
+		endif;
+		$updateendd = strtotime( $_POST['eventi_enddate'] . $_POST['eventi_endtime'] );
+		update_post_meta( $post->ID, 'eventi_enddate', $updateendd );
 
 	}
 
@@ -281,7 +278,7 @@ class Eventi_Register_Cpt {
 
 		global $post, $post_ID;
 
-		$messages['tf_events'] = array(
+		$messages['eventi_event'] = array(
 			0  => '', // Unused. Messages start at index 1.
 			1  => sprintf( __( 'Event updated. <a href="%s">View item</a>' ), esc_url( get_permalink( $post_ID ) ) ),
 			2  => __( 'Custom field updated.' ),
