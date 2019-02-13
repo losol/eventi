@@ -8,14 +8,14 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://losol.no
- * @since             1.0.0
- * @package           Eventi
+ * @package Eventi
+ * @link    https://losol.no
+ * @since   1.0.0
  *
  * @wordpress-plugin
  * Plugin Name:       Eventi
  * Plugin URI:        https://losol.io/eventi
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Event listing made fun. 
  * Version:           1.0.0
  * Author:            Ole Kristian Losvik
  * Author URI:        https://losol.no
