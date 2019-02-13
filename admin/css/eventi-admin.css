@@ -1,0 +1,5 @@
+.tf-meta {  }
+.tf-meta ul li { height: 20px; clear:both; margin: 0 0 15px 0;}
+.tf-meta ul li label { width: 100px; display:block; float:left; padding-top:4px; }
+.tf-meta ul li input { width:125px; display:block; float:left; }
+.tf-meta ul li em { width: 200px; display:block; float:left; color:gray; margi

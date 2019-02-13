@@ -30,8 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-/**
- * Regstration of the custom post type.
- */
-require plugin_dir_path( __FILE__ ) . 'includes/class-eventi-register-cpt.php';
-new Eventi_Register_Cpt();
+define( 'EVENTI_VERSION', '0.1.0' );
+
+require plugin_dir_path( __FILE__ ) . 'includes/class-eventi.php';
+new Eventi();
