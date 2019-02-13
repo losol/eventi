@@ -9,8 +9,15 @@ class Eventi {
 		$this->version     = EVENTI_VERSION;
 		$this->plugin_name = 'eventi';
 
+		$this->options_page();
 		$this->register_cpt();
 		$this->register_shortcodes();
+	}
+
+	private function options_page() {
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-eventi-options.php';
+		new Eventi_Options();
 
 	}
 
@@ -27,5 +34,7 @@ class Eventi {
 		new Eventi_Public();
 
 	}
+
+
 
 }
