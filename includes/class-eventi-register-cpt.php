@@ -56,7 +56,7 @@ class Eventi_Register_Cpt {
 			'capability_type'   => 'post',
 			'menu_icon'         => 'dashicons-calendar-alt',
 			'hierarchical'      => false,
-			'rewrite'           => array( 'slug' => 'events' ),
+			'rewrite'           => array( 'slug' => get_option( 'eventi_slug' ) ),
 			'supports'          => array( 'title', 'thumbnail', 'excerpt', 'editor' ),
 			'show_in_nav_menus' => true,
 			'taxonomies'        => array( 'eventi_eventcategory', 'post_tag' ),

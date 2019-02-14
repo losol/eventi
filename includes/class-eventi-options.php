@@ -8,15 +8,18 @@ class Eventi_Options {
 		// Add Settings and Fields
 		add_action( 'admin_init', array( $this, 'setup_sections' ) );
 		add_action( 'admin_init', array( $this, 'setup_fields' ) );
+
+		// Set up defaults
+		$this->set_default_settings();
 	}
 
 	public function create_plugin_settings_page() {
 		$parent_slug = 'edit.php?post_type=eventi_event';
-		$page_title = 'Eventi configurations';
-		$menu_title = 'Configuration';
-		$capability = 'manage_options';
-		$slug       = 'eventi_options';
-		$callback   = array( $this, 'plugin_settings_page_content' );
+		$page_title  = 'Eventi configurations';
+		$menu_title  = 'Configuration';
+		$capability  = 'manage_options';
+		$slug        = 'eventi_options';
+		$callback    = array( $this, 'plugin_settings_page_content' );
 
 		add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $slug, $callback );
 	}
@@ -93,6 +96,13 @@ class Eventi_Options {
 
 			add_settings_field( $field['uid'], $field['label'], array( $this, 'field_callback' ), 'eventi_options', $field['section'], $field );
 			register_setting( 'eventi_options', $field['uid'] );
+		}
+	}
+
+	public function set_default_settings() {
+		$eventi_slug = get_option( 'eventi_slug' );
+		if ( false === $eventi_slug ) { // Nothing yet saved
+			update_option( 'eventi_slug', 'events' );
 		}
 	}
 
