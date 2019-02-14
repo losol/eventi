@@ -18,8 +18,17 @@
 			printf( '<span class="sticky-post">%s</span>', _x( 'Featured', 'post', 'eventi' ) );
 		}
 		echo '<a href="' . esc_url( get_permalink() ) . '" class="event-details-link">' . get_the_title() . '</a>';
-		echo '&nbsp; &mdash; &nbsp;&nbsp;' . get_the_excerpt();
-		echo date_i18n( 'c', get_post_meta( $post_id, 'eventi_startdate', true ) );
+		echo '&nbsp;&nbsp;&mdash;&nbsp;&nbsp;' . get_the_excerpt();
+
+		// Date and times
+		$startdate  = get_post_meta( $post_id, 'eventi_startdate', true );
+		$enddate    = get_post_meta( $post_id, 'eventi_enddate', true );
+		$dateformat = get_option( 'date_format' );
+
+		echo '&nbsp;&nbsp;&mdash;&nbsp;&nbsp;' . date_i18n( $dateformat, $startdate );
+		if ( $startdate !== $enddate ) {
+			echo '-' . date_i18n( $dateformat, $enddate );
+		}
 
 	?>
 </div><!-- .entry-content -->
