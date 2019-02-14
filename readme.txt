@@ -116,3 +116,5 @@ Markdown uses email style notation for blockquotes and I've been told:
 
 == Credits 
 * [https://www.noeltock.com/web-design/wordpress/custom-post-types-events-pt1/](Noel Tocks tutorial)
+* [https://www.smashingmagazine.com/2016/03/making-a-wordpress-plugin-that-uses-service-apis/](Smashing Magazine: Making a WordPress plugin that uses service apis)
+* [https://www.smashingmagazine.com/2016/04/three-approaches-to-adding-configurable-fields-to-your-plugin/](Smashing Magazine: Three approaches to adding configurable fields to your plugin)
