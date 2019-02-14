@@ -8,8 +8,10 @@ class Eventi_Public {
 
 		// TODO Check if public API is enabled in options.
 		$this->enable_api();
-		
 
+		// Load templates.
+		add_filter( 'single_template', array( $this, 'load_event_template' ) );
+		add_filter( 'archive_template', array( $this, 'load_event_archive_template' ) );
 
 	}
 
@@ -39,6 +41,28 @@ class Eventi_Public {
 			_e( 'Sorry, no posts matched your criteria.' );
 		endif;
 	}
+
+	function load_event_template( $template ) {
+		global $post;
+
+		if ( $post->post_type == 'eventi_event' && $template !== locate_template( array( 'single-eventi-event.php' ) ) ) {
+			return plugin_dir_path( __FILE__ ) . 'templates/single-eventi-event.php';
+		}
+
+		return $template;
+	}
+
+	function load_event_archive_template( $template ) {
+		global $post;
+
+		if ( is_archive() && $template !== locate_template( array( 'archive-eventi-event.php' ) ) ) {
+			return plugin_dir_path( __FILE__ ) . 'templates/archive-eventi-event.php';
+		}
+
+		return $template;
+	}
+
+
 
 
 	function eventi_events_full( $atts ) {

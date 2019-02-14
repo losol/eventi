@@ -50,6 +50,7 @@ class Eventi_Register_Cpt {
 			'label'             => __( 'Events' ),
 			'labels'            => $labels,
 			'public'            => true,
+			'has_archive'       => true,
 			'can_export'        => true,
 			'show_ui'           => true,
 			'_builtin'          => false,
