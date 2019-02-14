@@ -4,11 +4,21 @@ class Eventi_Public {
 
 	public function __construct() {
 		add_shortcode( 'eventi', array( $this, 'events_loop_shortcode' ) ); // You can now call onto this shortcode with [tf-events-full limit='20']
-
 		add_shortcode( 'tf-events-full', array( $this, 'eventi_events_full' ) ); // You can now call onto this shortcode with [tf-events-full limit='20']
+
+		// TODO Check if public API is enabled in options.
+		$this->enable_api();
+		
+
 
 	}
 
+	function enable_api() {
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-eventi-public-api.php';
+		new Eventi_Public_Api();
+
+	}
 	function events_loop_shortcode() {
 		$args = array(
 			'post_type'   => 'eventi_event',
