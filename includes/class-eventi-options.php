@@ -49,21 +49,17 @@ class Eventi_Options {
 	}
 
 	public function setup_sections() {
-		add_settings_section( 'our_first_section', 'My First Section Title', array( $this, 'section_callback' ), 'eventi_options' );
-		add_settings_section( 'our_second_section', 'My Second Section Title', array( $this, 'section_callback' ), 'eventi_options' );
-		add_settings_section( 'our_third_section', 'My Third Section Title', array( $this, 'section_callback' ), 'eventi_options' );
+		add_settings_section( 'slug_section', 'My First Section Title', array( $this, 'section_callback' ), 'eventi_options' );
+		add_settings_section( 'features_section', 'My Second Section Title', array( $this, 'section_callback' ), 'eventi_options' );
 	}
 
 	public function section_callback( $arguments ) {
 		switch ( $arguments['id'] ) {
-			case 'our_first_section':
+			case 'slug_section':
 				echo 'This is the first description here!';
 				break;
-			case 'our_second_section':
+			case 'features_section':
 				echo 'This one is number two';
-				break;
-			case 'our_third_section':
-				echo 'Third time is the charm!';
 				break;
 		}
 	}
@@ -71,78 +67,17 @@ class Eventi_Options {
 	public function setup_fields() {
 		$fields = array(
 			array(
-				'uid'          => 'awesome_text_field',
-				'label'        => 'Sample Text Field',
-				'section'      => 'our_first_section',
+				'uid'          => 'eventi_slug',
+				'label'        => 'Slug (url for events)',
+				'section'      => 'slug_section',
 				'type'         => 'text',
 				'placeholder'  => 'Some text',
-				'helper'       => 'Does this help?',
-				'supplimental' => 'I am underneath!',
+				'supplimental' => 'Changing the url may break links to old pages',
 			),
 			array(
-				'uid'     => 'awesome_password_field',
-				'label'   => 'Sample Password Field',
-				'section' => 'our_first_section',
-				'type'    => 'password',
-			),
-			array(
-				'uid'     => 'awesome_number_field',
-				'label'   => 'Sample Number Field',
-				'section' => 'our_first_section',
-				'type'    => 'number',
-			),
-			array(
-				'uid'     => 'awesome_textarea',
-				'label'   => 'Sample Text Area',
-				'section' => 'our_first_section',
-				'type'    => 'textarea',
-			),
-			array(
-				'uid'     => 'awesome_select',
-				'label'   => 'Sample Select Dropdown',
-				'section' => 'our_first_section',
-				'type'    => 'select',
-				'options' => array(
-					'option1' => 'Option 1',
-					'option2' => 'Option 2',
-					'option3' => 'Option 3',
-					'option4' => 'Option 4',
-					'option5' => 'Option 5',
-				),
-				'default' => array(),
-			),
-			array(
-				'uid'     => 'awesome_multiselect',
-				'label'   => 'Sample Multi Select',
-				'section' => 'our_first_section',
-				'type'    => 'multiselect',
-				'options' => array(
-					'option1' => 'Option 1',
-					'option2' => 'Option 2',
-					'option3' => 'Option 3',
-					'option4' => 'Option 4',
-					'option5' => 'Option 5',
-				),
-				'default' => array(),
-			),
-			array(
-				'uid'     => 'awesome_radio',
-				'label'   => 'Sample Radio Buttons',
-				'section' => 'our_first_section',
-				'type'    => 'radio',
-				'options' => array(
-					'option1' => 'Option 1',
-					'option2' => 'Option 2',
-					'option3' => 'Option 3',
-					'option4' => 'Option 4',
-					'option5' => 'Option 5',
-				),
-				'default' => array(),
-			),
-			array(
-				'uid'     => 'awesome_checkboxes',
-				'label'   => 'Sample Checkboxes',
-				'section' => 'our_first_section',
+				'uid'     => 'eventi_features',
+				'label'   => 'Features enabled',
+				'section' => 'features_section',
 				'type'    => 'checkbox',
 				'options' => array(
 					'option1' => 'Option 1',
