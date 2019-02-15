@@ -1,11 +1,8 @@
 jQuery(document).ready(function($)
 {
 $(".tfdate").datepicker({
-    dateFormat: 'D, M d, yy',
+    dateFormat: 'yy-mm-dd',
     showOn: 'focus',
-    buttonImage: '/yourpath/icon-datepicker.png',
-    buttonImageOnly: true,
     numberOfMonths: 3
- 
     });
 });
