@@ -16,8 +16,8 @@ class Eventi_Register_Cpt {
 		add_action( 'init', array( $this, 'eventi_eventcategory_taxonomy' ), 0 );
 
 		// Change columns in admin
-		add_filter( 'manage_edit-eventi_columns', 'eventi_edit_columns' );
-		add_action( 'manage_posts_custom_column', 'eventi_custom_columns' );
+		add_filter( 'manage_eventi_event_posts_columns', array( $this, 'eventi_edit_columns' ) );
+		add_action( 'manage_posts_custom_column', array( $this, 'eventi_custom_columns' ) );
 
 		// Add meta box
 		add_action( 'admin_init', array( $this, 'eventi_add_metabox' ) );
@@ -115,11 +115,12 @@ class Eventi_Register_Cpt {
 
 	function eventi_custom_columns( $column ) {
 		global $post;
-		$custom = get_post_custom();
+		$custom      = get_post_custom();
+		$date_format = get_option( 'date_format' );
 		switch ( $column ) {
 			case 'eventi_col_cat':
 				// - show taxonomy terms -
-				$eventcats      = get_the_terms( $post->ID, 'tf_eventcategory' );
+				$eventcats      = get_the_terms( $post->ID, 'eventi_eventcategory' );
 				$eventcats_html = array();
 				if ( $eventcats ) {
 					foreach ( $eventcats as $eventcat ) {
@@ -127,7 +128,7 @@ class Eventi_Register_Cpt {
 					}
 					echo implode( $eventcats_html, ', ' );
 				} else {
-					_e( 'None', 'themeforce' );
+					_e( 'None', 'eventi' );
 
 				}
 				break;
@@ -135,8 +136,8 @@ class Eventi_Register_Cpt {
 				// - show dates -
 				$startd    = $custom['eventi_startdate'][0];
 				$endd      = $custom['eventi_enddate'][0];
-				$startdate = date( 'F j, Y', $startd );
-				$enddate   = date( 'F j, Y', $endd );
+				$startdate = date( $date_format, $startd );
+				$enddate   = date( $date_format, $endd );
 				echo $startdate . '<br /><em>' . $enddate . '</em>';
 				break;
 			case 'eventi_col_times':
@@ -169,10 +170,6 @@ class Eventi_Register_Cpt {
 		$meta_starttime = $custom['eventi_starttime'][0];
 		$meta_endtime   = $custom['eventi_endtime'][0];
 
-		// Set today as default startdate.
-		if ( null == $meta_startdate ) {
-			$meta_startdate = date( 'Y-m-d', $time() );
-		}
 
 		// WP nonce
 		echo '<input type="hidden" name="eventi-events-nonce" id="eventi-events-nonce" value="' .
