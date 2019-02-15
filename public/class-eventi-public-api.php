@@ -40,9 +40,9 @@ class Eventi_Public_Api {
 				$post_data[] = array(
 					'id'        => $post_id,
 					'title'     => get_the_title(),
-					'startdate' => date_i18n( 'c', get_post_meta( $post_id, 'eventi_startdate', true ) ),
+					'startdate' => date_i18n( 'Y-m-d', get_post_meta( $post_id, 'eventi_startdate', true ) ),
 					'starttime' => get_post_meta( $post_id, 'eventi_starttime', true ),
-					'enddate'   => date_i18n( 'c', get_post_meta( $post_id, 'eventi_enddate', true ) ),
+					'enddate'   => date_i18n( 'Y-m-d', get_post_meta( $post_id, 'eventi_enddate', true ) ),
 					'endtime'   => get_post_meta( $post_id, 'eventi_endtime', true ),
 				);
 			}
