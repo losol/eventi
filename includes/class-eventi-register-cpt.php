@@ -177,10 +177,10 @@ class Eventi_Register_Cpt {
 		?>
 			<div class="tf-meta">
 			<ul>
-				<li><label>Start Date</label><input name="eventi_startdate" class="tfdate" value="<?php echo $meta_startdate; ?>" /><em> YYYY-MM-DD, like 2019-12-31</em></li>
-				<li><label>Start Time</label><input name="eventi_starttime" value="<?php echo $meta_starttime; ?>" /><em> Use 24h format (7pm = 19:00)</em></li>
-				<li><label>End Date</label><input name="eventi_enddate" class="tfdate" value="<?php echo $meta_enddate; ?>" /><em> YYYY-MM-DD, like 2019-12-31</em></li>
-				<li><label>End Time</label><input name="eventi_endtime" value="<?php echo $meta_endtime; ?>" /><em> Use 24h format (7pm = 19:00)</em></li>
+				<li><label>Start Date</label><input name="eventi_startdate" class="tfdate" value="<?php echo esc_attr( $meta_startdate ); ?>" /><em> YYYY-MM-DD, like 2019-12-31</em></li>
+				<li><label>Start Time</label><input name="eventi_starttime" value="<?php echo esc_attr( $meta_starttime ); ?>" /><em> Use 24h format (7pm = 19:00)</em></li>
+				<li><label>End Date</label><input name="eventi_enddate" class="tfdate" value="<?php echo esc_attr( $meta_enddate ); ?>" /><em> YYYY-MM-DD, like 2019-12-31</em></li>
+				<li><label>End Time</label><input name="eventi_endtime" value="<?php echo esc_attr( $meta_endtime ); ?>" /><em> Use 24h format (7pm = 19:00)</em></li>
 			</ul>
 			</div>
 		<?php
