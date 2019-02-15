@@ -169,29 +169,10 @@ class Eventi_Register_Cpt {
 		$meta_starttime = $custom['eventi_starttime'][0];
 		$meta_endtime   = $custom['eventi_endtime'][0];
 
-		/*
-		// Get WordPress settings for date and time formatting.
-		// $date_format = get_option( 'date_format' );
-		// $time_format = get_option( 'time_format' );
-		*/
-
 		// Set today as default startdate.
 		if ( null == $meta_startdate ) {
 			$meta_startdate = date( 'Y-m-d', $time() );
 		}
-
-		/*
-		// Format as user wishes.
-		$formatted_startdate = date( $date_format, $meta_startdate );
-
-		// if ( null != $meta_enddate ) {
-			$formatted_enddate = date( $date_format, $meta_enddate );
-		} else {
-			$formatted_enddate = null;
-		}
-		$formatted_starttime = date( $time_format, $meta_starttime );
-		$formatted_endtime   = date( $time_format, $meta_endtime );
-		*/
 
 		// WP nonce
 		echo '<input type="hidden" name="eventi-events-nonce" id="eventi-events-nonce" value="' .
@@ -241,7 +222,7 @@ class Eventi_Register_Cpt {
 
 		global $post;
 
-		// - still require nonce
+		// Require nonce
 		if ( ! wp_verify_nonce( $_POST['eventi-events-nonce'], 'eventi-events-nonce' ) ) {
 			return $post->ID;
 		}
@@ -255,15 +236,32 @@ class Eventi_Register_Cpt {
 			return $post;
 		endif;
 
-		$update_startdate = sanitize_text_field( $_POST['eventi_startdate'] );
-		$update_starttime = sanitize_text_field( $_POST['eventi_starttime'] );
-		$update_enddate   = sanitize_text_field( $_POST['eventi_enddate'] );
-		$update_endtime   = sanitize_text_field( $_POST['eventi_endtime'] );
+		// Update start date.
+		$update_startdate = strtotime( sanitize_text_field( $_POST['eventi_startdate'] ) );
+		update_post_meta( $post->ID, 'eventi_startdate', date( 'Y-m-d', $update_startdate ) );
 
-		update_post_meta( $post->ID, 'eventi_startdate', $update_startdate );
-		update_post_meta( $post->ID, 'eventi_starttime', $update_starttime );
-		update_post_meta( $post->ID, 'eventi_enddate', $update_enddate );
-		update_post_meta( $post->ID, 'eventi_endtime', $update_endtime );
+		// Update end date if submitted.
+		if ( null != $_POST['eventi_enddate'] ) {
+			$update_enddate = strtotime( sanitize_text_field( $_POST['eventi_enddate'] ) );
+			update_post_meta( $post->ID, 'eventi_enddate', date( 'Y-m-d', $update_enddate ) );
+		} else {
+			update_post_meta( $post->ID, 'eventi_enddate', null );
+		}
+
+		// Update start and end time if matches regex pattern.
+		$update_starttime = sanitize_text_field( $_POST['eventi_starttime'] );
+		if ( preg_match( '/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $update_starttime ) ) {
+			update_post_meta( $post->ID, 'eventi_starttime', $update_starttime );
+		} else {
+			update_post_meta( $post->ID, 'eventi_starttime', null );
+		}
+
+		$update_endtime = sanitize_text_field( $_POST['eventi_endtime'] );
+		if ( preg_match( '/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $update_endtime ) ) {
+			update_post_meta( $post->ID, 'eventi_endtime', $update_endtime );
+		} else {
+			update_post_meta( $post->ID, 'eventi_endtime', null );
+		}
 
 	}
 
