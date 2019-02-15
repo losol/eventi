@@ -103,13 +103,12 @@ class Eventi_Register_Cpt {
 	function eventi_edit_columns( $columns ) {
 
 		$columns = array(
-			'cb'              => '<input type="checkbox" />',
-			'tf_col_ev_cat'   => 'Category',
-			'tf_col_ev_date'  => 'Dates',
-			'tf_col_ev_times' => 'Times',
-			'tf_col_ev_thumb' => 'Thumbnail',
-			'title'           => 'Event',
-			'tf_col_ev_desc'  => 'Description',
+			'cb'               => '<input type="checkbox" />',
+			'eventi_col_cat'   => 'Category',
+			'eventi_col_date'  => 'Dates',
+			'eventi_col_times' => 'Times',
+			'title'            => 'Event',
+			'eventi_col_desc'  => 'Description',
 		);
 		return $columns;
 	}
@@ -118,7 +117,7 @@ class Eventi_Register_Cpt {
 		global $post;
 		$custom = get_post_custom();
 		switch ( $column ) {
-			case 'tf_col_ev_cat':
+			case 'eventi_col_cat':
 				// - show taxonomy terms -
 				$eventcats      = get_the_terms( $post->ID, 'tf_eventcategory' );
 				$eventcats_html = array();
@@ -132,7 +131,7 @@ class Eventi_Register_Cpt {
 
 				}
 				break;
-			case 'tf_col_ev_date':
+			case 'eventi_col_date':
 				// - show dates -
 				$startd    = $custom['eventi_startdate'][0];
 				$endd      = $custom['eventi_enddate'][0];
@@ -140,7 +139,7 @@ class Eventi_Register_Cpt {
 				$enddate   = date( 'F j, Y', $endd );
 				echo $startdate . '<br /><em>' . $enddate . '</em>';
 				break;
-			case 'tf_col_ev_times':
+			case 'eventi_col_times':
 				// - show times -
 				$startt      = $custom['eventi_startdate'][0];
 				$endt        = $custom['eventi_enddate'][0];
@@ -149,22 +148,7 @@ class Eventi_Register_Cpt {
 				$endtime     = date( $time_format, $endt );
 				echo $starttime . ' - ' . $endtime;
 				break;
-			case 'tf_col_ev_thumb':
-				// - show thumb -
-				$post_image_id = get_post_thumbnail_id( get_the_ID() );
-				if ( $post_image_id ) {
-					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'post-thumbnail', false );
-					if ( $thumbnail ) {
-						(string) $thumbnail = $thumbnail[0];
-					}
-					echo '<img src="';
-					echo bloginfo( 'template_url' );
-					echo '/timthumb/timthumb.php?src=';
-					echo $thumbnail;
-					echo '&h=60&w=60&zc=1" alt="" />';
-				}
-				break;
-			case 'tf_col_ev_desc':
+			case 'eventi_col_desc':
 				the_excerpt();
 				break;
 
@@ -179,43 +163,46 @@ class Eventi_Register_Cpt {
 
 		// Get post meta.
 		global $post;
-		$custom                = get_post_custom( $post->ID );
-		$meta_startdate        = $custom['eventi_startdate'][0];
-		$meta_enddate          = $custom['eventi_enddate'][0];
-		$meta_starttime        = $custom['eventi_starttime'][0];
-		$meta_endtime          = $custom['eventi_endtime'][0];
+		$custom         = get_post_custom( $post->ID );
+		$meta_startdate = $custom['eventi_startdate'][0];
+		$meta_enddate   = $custom['eventi_enddate'][0];
+		$meta_starttime = $custom['eventi_starttime'][0];
+		$meta_endtime   = $custom['eventi_endtime'][0];
 
-		// Get wordpress settings for date and time formatting.
-		$date_format = get_option( 'date_format' );
-		$time_format = get_option( 'time_format' );
+		/*
+		// Get WordPress settings for date and time formatting.
+		// $date_format = get_option( 'date_format' );
+		// $time_format = get_option( 'time_format' );
+		*/
 
 		// Set today as default startdate.
 		if ( null == $meta_startdate ) {
-			$meta_startdate = time();
+			$meta_startdate = date( 'Y-m-d', $time() );
 		}
 
+		/*
 		// Format as user wishes.
 		$formatted_startdate = date( $date_format, $meta_startdate );
 
-		if ( null != $meta_enddate ) {
+		// if ( null != $meta_enddate ) {
 			$formatted_enddate = date( $date_format, $meta_enddate );
 		} else {
 			$formatted_enddate = null;
 		}
 		$formatted_starttime = date( $time_format, $meta_starttime );
 		$formatted_endtime   = date( $time_format, $meta_endtime );
+		*/
 
 		// WP nonce
 		echo '<input type="hidden" name="eventi-events-nonce" id="eventi-events-nonce" value="' .
 		wp_create_nonce( 'eventi-events-nonce' ) . '" />';
 		?>
-			
 			<div class="tf-meta">
 			<ul>
-				<li><label>Start Date</label><input name="eventi_startdate" class="tfdate" value="<?php echo $formatted_startdate; ?>" /></li>
-				<li><label>Start Time</label><input name="eventi_starttime" value="<?php echo $formatted_starttime; ?>" /><em>Use 24h format (7pm = 19:00)</em></li>
-				<li><label>End Date</label><input name="eventi_enddate" class="tfdate" value="<?php echo $formatted_enddate; ?>" /></li>
-				<li><label>End Time</label><input name="eventi_endtime" value="<?php echo $formatted_endtime; ?>" /><em>Use 24h format (7pm = 19:00)</em></li>
+				<li><label>Start Date</label><input name="eventi_startdate" class="tfdate" value="<?php echo $meta_startdate; ?>" /><em> YYYY-MM-DD, like 2019-12-31</em></li>
+				<li><label>Start Time</label><input name="eventi_starttime" value="<?php echo $meta_starttime; ?>" /><em> Use 24h format (7pm = 19:00)</em></li>
+				<li><label>End Date</label><input name="eventi_enddate" class="tfdate" value="<?php echo $meta_enddate; ?>" /><em> YYYY-MM-DD, like 2019-12-31</em></li>
+				<li><label>End Time</label><input name="eventi_endtime" value="<?php echo $meta_endtime; ?>" /><em> Use 24h format (7pm = 19:00)</em></li>
 			</ul>
 			</div>
 		<?php
@@ -263,26 +250,19 @@ class Eventi_Register_Cpt {
 			return $post->ID;
 		}
 
-		// - convert back to unix & update post
+		// Start date is mandatory
 		if ( ! isset( $_POST['eventi_startdate'] ) ) :
 			return $post;
 		endif;
-		// $updatestartd = strtotime( $_POST['eventi_startdate'] . $_POST['eventi_starttime'] );
-		// update_post_meta( $post->ID, 'eventi_startdate', $updatestartd );
-		$update_startddate = strtotime( $_POST['eventi_startdate'] );
-		$update_starttime  = strtotime( $_POST['eventi_starttime'] );
 
-		update_post_meta( $post->ID, 'eventi_startdate', $update_startddate );
+		$update_startdate = sanitize_text_field( $_POST['eventi_startdate'] );
+		$update_starttime = sanitize_text_field( $_POST['eventi_starttime'] );
+		$update_enddate   = sanitize_text_field( $_POST['eventi_enddate'] );
+		$update_endtime   = sanitize_text_field( $_POST['eventi_endtime'] );
+
+		update_post_meta( $post->ID, 'eventi_startdate', $update_startdate );
 		update_post_meta( $post->ID, 'eventi_starttime', $update_starttime );
-
-		if ( null == $_POST['eventi_enddate'] ) {
-			update_post_meta( $post->ID, 'eventi_enddate', null );
-		} else {
-			$update_enddate = strtotime( $_POST['eventi_enddate'] );
-			update_post_meta( $post->ID, 'eventi_enddate', $update_enddate );
-		}
-
-		$update_endtime = strtotime( $_POST['eventi_endtime'] );
+		update_post_meta( $post->ID, 'eventi_enddate', $update_enddate );
 		update_post_meta( $post->ID, 'eventi_endtime', $update_endtime );
 
 	}
