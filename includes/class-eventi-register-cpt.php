@@ -50,6 +50,7 @@ class Eventi_Register_Cpt {
 			'label'             => __( 'Events' ),
 			'labels'            => $labels,
 			'public'            => true,
+			'show_in_rest'      => true,
 			'has_archive'       => true,
 			'can_export'        => true,
 			'show_ui'           => true,
@@ -103,12 +104,11 @@ class Eventi_Register_Cpt {
 	function eventi_edit_columns( $columns ) {
 
 		$columns = array(
-			'cb'               => '<input type="checkbox" />',
-			'eventi_col_cat'   => 'Category',
-			'eventi_col_date'  => 'Dates',
-			'eventi_col_times' => 'Times',
-			'title'            => 'Event',
-			'eventi_col_desc'  => 'Description',
+			'cb'              => '<input type="checkbox" />',
+			'title'           => 'Event',
+			'eventi_col_desc' => 'Description',
+			'eventi_col_date' => 'Dates',
+			'eventi_col_cat'  => 'Category',
 		);
 		return $columns;
 	}
@@ -117,7 +117,37 @@ class Eventi_Register_Cpt {
 		global $post;
 		$custom      = get_post_custom();
 		$date_format = get_option( 'date_format' );
+		$time_format = get_option( 'time_format' );
+
 		switch ( $column ) {
+			case 'eventi_col_desc':
+				the_excerpt();
+				break;
+			case 'eventi_col_date':
+				$meta_startdate = $custom['eventi_startdate'][0];
+				$meta_enddate   = $custom['eventi_enddate'][0];
+				$meta_starttime = $custom['eventi_starttime'][0];
+				$meta_endtime   = $custom['eventi_endtime'][0];
+
+				$formatted_time = date_i18n( $date_format, strtotime( $meta_startdate ) );
+				if ( null != $meta_starttime ) {
+					$formatted_time .= ': ' . date_i18n( $time_format, strtotime( $meta_starttime ) );
+				}
+
+				if ( null != $meta_enddate ) {
+					if ( $meta_startdate != $meta_enddate ) {
+						$formatted_time .= '<br> &mdash; ' . date_i18n( $date_format, strtotime( $meta_enddate ) );
+					} else {
+						$formatted_time .= '-';
+					}
+
+					if ( null != $meta_endtime ) {
+						$formatted_time .= date_i18n( $time_format, strtotime( $meta_endtime ) );
+					}
+				}
+
+				echo $formatted_time;
+				break;
 			case 'eventi_col_cat':
 				// - show taxonomy terms -
 				$eventcats      = get_the_terms( $post->ID, 'eventi_eventcategory' );
@@ -131,26 +161,6 @@ class Eventi_Register_Cpt {
 					_e( 'None', 'eventi' );
 
 				}
-				break;
-			case 'eventi_col_date':
-				// - show dates -
-				$startd    = $custom['eventi_startdate'][0];
-				$endd      = $custom['eventi_enddate'][0];
-				$startdate = date( $date_format, $startd );
-				$enddate   = date( $date_format, $endd );
-				echo $startdate . '<br /><em>' . $enddate . '</em>';
-				break;
-			case 'eventi_col_times':
-				// - show times -
-				$startt      = $custom['eventi_startdate'][0];
-				$endt        = $custom['eventi_enddate'][0];
-				$time_format = get_option( 'time_format' );
-				$starttime   = date( $time_format, $startt );
-				$endtime     = date( $time_format, $endt );
-				echo $starttime . ' - ' . $endtime;
-				break;
-			case 'eventi_col_desc':
-				the_excerpt();
 				break;
 
 		}
@@ -169,7 +179,6 @@ class Eventi_Register_Cpt {
 		$meta_enddate   = $custom['eventi_enddate'][0];
 		$meta_starttime = $custom['eventi_starttime'][0];
 		$meta_endtime   = $custom['eventi_endtime'][0];
-
 
 		// WP nonce
 		echo '<input type="hidden" name="eventi-events-nonce" id="eventi-events-nonce" value="' .
