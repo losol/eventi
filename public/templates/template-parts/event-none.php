@@ -30,7 +30,7 @@
 						),
 					)
 				) . '</p>',
-				esc_url( admin_url( 'post-new.php?post_type=eventi_event' ) )
+				esc_url( admin_url( 'post-new.php?post_type=eventi' ) )
 			);
 		else :
 			?>

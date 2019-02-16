@@ -4,7 +4,7 @@ class Eventi_Public {
 
 	public function __construct() {
 		add_shortcode( 'eventi', array( $this, 'events_loop_shortcode' ) ); // You can now call onto this shortcode with [tf-events-full limit='20']
-		add_shortcode( 'tf-events-full', array( $this, 'eventi_events_full' ) ); // You can now call onto this shortcode with [tf-events-full limit='20']
+		add_shortcode( 'tf-events-full', array( $this, 'eventis_full' ) ); // You can now call onto this shortcode with [tf-events-full limit='20']
 
 		// TODO Check if public API is enabled in options.
 		$this->enable_api();
@@ -26,7 +26,7 @@ class Eventi_Public {
 	}
 	function events_loop_shortcode() {
 		$args = array(
-			'post_type'   => 'eventi_event',
+			'post_type'   => 'eventi',
 			'post_status' => 'publish',
 		);
 
@@ -48,7 +48,7 @@ class Eventi_Public {
 	function load_event_template( $template ) {
 		global $post;
 
-		if ( $post->post_type == 'eventi_event' && $template !== locate_template( array( 'single-eventi-event.php' ) ) ) {
+		if ( $post->post_type == 'eventi' && $template !== locate_template( array( 'single-eventi-event.php' ) ) ) {
 			return plugin_dir_path( __FILE__ ) . 'templates/single-eventi-event.php';
 		}
 
@@ -66,7 +66,7 @@ class Eventi_Public {
 	}
 
 	function insert_json_ld() {
-		if ( is_singular( 'eventi_event' ) ) {
+		if ( is_singular( 'eventi' ) ) {
 			the_post();
 			$context          = 'https://schema.org';
 			$type             = 'Event';

@@ -14,7 +14,7 @@ class Eventi_Options {
 	}
 
 	public function create_plugin_settings_page() {
-		$parent_slug = 'edit.php?post_type=eventi_event';
+		$parent_slug = 'edit.php?post_type=eventi';
 		$page_title  = 'Eventi configurations';
 		$menu_title  = 'Configuration';
 		$capability  = 'manage_options';

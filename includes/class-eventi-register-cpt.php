@@ -16,7 +16,7 @@ class Eventi_Register_Cpt {
 		add_action( 'init', array( $this, 'eventi_eventcategory_taxonomy' ), 0 );
 
 		// Change columns in admin
-		add_filter( 'manage_eventi_event_posts_columns', array( $this, 'eventi_edit_columns' ) );
+		add_filter( 'manage_eventi_posts_columns', array( $this, 'eventi_edit_columns' ) );
 		add_action( 'manage_posts_custom_column', array( $this, 'eventi_custom_columns' ) );
 
 		// Add meta box
@@ -26,7 +26,7 @@ class Eventi_Register_Cpt {
 		$this->eventi_styles_and_scripts();
 
 		// Save post
-		add_action( 'save_post', array( $this, 'save_eventi_event' ) );
+		add_action( 'save_post', array( $this, 'save_eventi' ) );
 		add_filter( 'post_updated_messages', array( $this, 'events_updated_messages' ) );
 	}
 
@@ -64,11 +64,11 @@ class Eventi_Register_Cpt {
 			'taxonomies'        => array( 'eventi_eventcategory', 'post_tag' ),
 		);
 
-		register_post_type( 'eventi_event', $args );
+		register_post_type( 'eventi', $args );
 
 	}
 
-	function eventi_eventcategory_taxonomy() {
+	function eventicategory_taxonomy() {
 
 		$labels = array(
 			'name'                       => _x( 'Categories', 'taxonomy general name' ),
@@ -88,8 +88,8 @@ class Eventi_Register_Cpt {
 		);
 
 		register_taxonomy(
-			'eventi_eventcategory',
-			'eventi_event',
+			'eventicategory',
+			'eventi',
 			array(
 				'label'        => __( 'Event Category' ),
 				'labels'       => $labels,
@@ -150,7 +150,7 @@ class Eventi_Register_Cpt {
 				break;
 			case 'eventi_col_cat':
 				// - show taxonomy terms -
-				$eventcats      = get_the_terms( $post->ID, 'eventi_eventcategory' );
+				$eventcats      = get_the_terms( $post->ID, 'eventicategory' );
 				$eventcats_html = array();
 				if ( $eventcats ) {
 					foreach ( $eventcats as $eventcat ) {
@@ -167,7 +167,7 @@ class Eventi_Register_Cpt {
 	}
 
 	function eventi_add_metabox() {
-		add_meta_box( 'eventi_render_admin_metabox', 'Event time', array( $this, 'eventi_render_admin_metabox' ), 'eventi_event' );
+		add_meta_box( 'eventi_render_admin_metabox', 'Event time', array( $this, 'eventi_render_admin_metabox' ), 'eventi' );
 	}
 
 	function eventi_render_admin_metabox() {
@@ -206,7 +206,7 @@ class Eventi_Register_Cpt {
 
 	function events_styles() {
 		global $post_type;
-		if ( 'eventi_event' != $post_type ) {
+		if ( 'eventi' != $post_type ) {
 			return;
 		}
 		wp_enqueue_style( 'jquery-ui-datepicker-style', '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' );
@@ -215,7 +215,7 @@ class Eventi_Register_Cpt {
 
 	function events_scripts() {
 		global $post_type;
-		if ( 'eventi_event' != $post_type ) {
+		if ( 'eventi' != $post_type ) {
 			return;
 		}
 
@@ -224,7 +224,7 @@ class Eventi_Register_Cpt {
 
 
 
-	function save_eventi_event() {
+	function save_eventi() {
 
 		global $post;
 
@@ -275,7 +275,7 @@ class Eventi_Register_Cpt {
 
 		global $post, $post_ID;
 
-		$messages['eventi_event'] = array(
+		$messages['eventi'] = array(
 			0  => '', // Unused. Messages start at index 1.
 			1  => sprintf( __( 'Event updated. <a href="%s">View item</a>' ), esc_url( get_permalink( $post_ID ) ) ),
 			2  => __( 'Custom field updated.' ),

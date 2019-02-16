@@ -24,7 +24,7 @@ get_header();
 			<?php
 			// Start the Loop.
 			$args = [
-				'post_type'      => 'eventi_event',
+				'post_type'      => 'eventi',
 				'posts_per_page' => 10,
 			];
 			$loop = new WP_Query( $args );

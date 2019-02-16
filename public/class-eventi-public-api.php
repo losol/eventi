@@ -20,7 +20,7 @@ class Eventi_Public_Api {
 
 		// WP_Query arguments
 		$args = array(
-			'post_type' => array( 'eventi_event' ),
+			'post_type' => array( 'eventi' ),
 			'post_status' => array( 'publish' ),
 			'nopaging'  => true,
 			// 'order'       => 'ASC',
