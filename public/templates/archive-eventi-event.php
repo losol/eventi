@@ -30,8 +30,6 @@ get_header();
 			$loop = new WP_Query( $args );
 			while ( $loop->have_posts() ) {
 				$loop->the_post();
-
-				require plugin_dir_path( dirname( __FILE__ ) ) . 'templates/template-parts/event-summary.php';
 				require plugin_dir_path( dirname( __FILE__ ) ) . 'templates/template-parts/event-excerpt.php';
 				?>
 				<?php
