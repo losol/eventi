@@ -48,11 +48,12 @@ class Eventi_Public {
 			$context          = 'https://schema.org';
 			$type             = 'Event';
 			$name             = get_the_title();
-			$start_date       = '2018-10-30';
+			$start_date       = get_post_meta( $post_id, 'eventi_startdate', true );
+			$end_date         = get_post_meta( $post_id, 'eventi_enddate', true );
 			$description      = get_the_excerpt();
-			$place            = 'Kult sted';
-			$location_city    = 'Kul by';
-			$location_country = 'Kult land';
+			$place            = get_post_meta( $post_id, 'eventi_place', true );
+			$location_city    = get_post_meta( $post_id, 'eventi_city', true );
+			$location_country = get_post_meta( $post_id, 'eventi_country', true );
 
 			$metadata_array = array(
 				'@context'    => $context,
