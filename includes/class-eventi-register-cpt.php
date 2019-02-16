@@ -13,7 +13,7 @@ class Eventi_Register_Cpt {
 		add_action( 'init', array( $this, 'eventi_register_cpt' ) );
 
 		// Add event categories
-		add_action( 'init', array( $this, 'eventi_eventcategory_taxonomy' ), 0 );
+		add_action( 'init', array( $this, 'eventicategory_taxonomy' ), 0 );
 
 		// Change columns in admin
 		add_filter( 'manage_eventi_posts_columns', array( $this, 'eventi_edit_columns' ) );
@@ -27,7 +27,7 @@ class Eventi_Register_Cpt {
 
 		// Save post
 		add_action( 'save_post', array( $this, 'save_eventi' ) );
-		add_filter( 'post_updated_messages', array( $this, 'events_updated_messages' ) );
+		add_filter( 'post_updated_messages', array( $this, 'eventi_updated_messages' ) );
 	}
 
 	function eventi_register_cpt() {
@@ -61,10 +61,11 @@ class Eventi_Register_Cpt {
 			'rewrite'           => array( 'slug' => get_option( 'eventi_slug' ) ),
 			'supports'          => array( 'title', 'thumbnail', 'excerpt', 'editor' ),
 			'show_in_nav_menus' => true,
-			'taxonomies'        => array( 'eventi_eventcategory', 'post_tag' ),
+			'taxonomies'        => array( 'eventicategory', 'post_tag' ),
 		);
 
 		register_post_type( 'eventi', $args );
+		flush_rewrite_rules();
 
 	}
 
@@ -271,7 +272,7 @@ class Eventi_Register_Cpt {
 
 	}
 
-	function events_updated_messages( $messages ) {
+	function eventi_updated_messages( $messages ) {
 
 		global $post, $post_ID;
 

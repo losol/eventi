@@ -3,14 +3,11 @@
 class Eventi_Public {
 
 	public function __construct() {
-		add_shortcode( 'eventi', array( $this, 'events_loop_shortcode' ) ); // You can now call onto this shortcode with [tf-events-full limit='20']
-		add_shortcode( 'tf-events-full', array( $this, 'eventis_full' ) ); // You can now call onto this shortcode with [tf-events-full limit='20']
 
-		// TODO Check if public API is enabled in options.
 		$this->enable_api();
 
 		// Load templates.
-		add_filter( 'single_template', array( $this, 'load_event_template' ) );
+		add_filter( 'single_template', array( $this, 'load_event_single_template' ) );
 		add_filter( 'archive_template', array( $this, 'load_event_archive_template' ) );
 
 		// Add JSON-LD metadata
@@ -24,32 +21,12 @@ class Eventi_Public {
 		new Eventi_Public_Api();
 
 	}
-	function events_loop_shortcode() {
-		$args = array(
-			'post_type'   => 'eventi',
-			'post_status' => 'publish',
-		);
 
-		$my_query = null;
-		$my_query = new WP_query( $args );
-		if ( $my_query->have_posts() ) :
-			while ( $my_query->have_posts() ) :
-				$my_query->the_post();
-				$custom = get_post_custom( get_the_ID() );
-				echo '<p>' . get_the_title() . '</p>';
-				echo '<p>' . get_the_content() . '</p>';
-			endwhile;
-			wp_reset_postdata();
-		else :
-			_e( 'Sorry, no posts matched your criteria.' );
-		endif;
-	}
-
-	function load_event_template( $template ) {
+	function load_event_single_template( $template ) {
 		global $post;
 
-		if ( $post->post_type == 'eventi' && $template !== locate_template( array( 'single-eventi-event.php' ) ) ) {
-			return plugin_dir_path( __FILE__ ) . 'templates/single-eventi-event.php';
+		if ( $post->post_type == 'eventi' && $template !== locate_template( array( 'single-eventi.php' ) ) ) {
+			return plugin_dir_path( __FILE__ ) . 'templates/single-eventi.php';
 		}
 
 		return $template;
@@ -58,8 +35,8 @@ class Eventi_Public {
 	function load_event_archive_template( $template ) {
 		global $post;
 
-		if ( is_archive() && $template !== locate_template( array( 'archive-eventi-event.php' ) ) ) {
-			return plugin_dir_path( __FILE__ ) . 'templates/archive-eventi-event.php';
+		if ( is_archive() && $template !== locate_template( array( 'archive-eventi.php' ) ) ) {
+			return plugin_dir_path( __FILE__ ) . 'templates/archive-eventi.php';
 		}
 
 		return $template;
