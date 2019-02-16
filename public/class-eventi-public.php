@@ -48,12 +48,12 @@ class Eventi_Public {
 			$context          = 'https://schema.org';
 			$type             = 'Event';
 			$name             = get_the_title();
-			$start_date       = get_post_meta( $post_id, 'eventi_startdate', true );
-			$end_date         = get_post_meta( $post_id, 'eventi_enddate', true );
+			$start_date       = get_post_meta( get_the_id(), 'eventi_startdate', true );
+			$end_date         = get_post_meta( get_the_id(), 'eventi_enddate', true );
 			$description      = get_the_excerpt();
-			$place            = get_post_meta( $post_id, 'eventi_place', true );
-			$location_city    = get_post_meta( $post_id, 'eventi_city', true );
-			$location_country = get_post_meta( $post_id, 'eventi_country', true );
+			$place            = get_post_meta( get_the_id(), 'eventi_place', true );
+			$location_city    = get_post_meta( get_the_id(), 'eventi_city', true );
+			$location_country = get_post_meta( get_the_id(), 'eventi_country', true );
 
 			$metadata_array = array(
 				'@context'    => $context,
