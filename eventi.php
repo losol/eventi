@@ -16,7 +16,7 @@
  * Plugin Name:       Eventi
  * Plugin URI:        https://losol.io/eventi
  * Description:       Event listing made fun.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Ole Kristian Losvik
  * Author URI:        https://losol.no
  * License:           GPL-2.0+
