@@ -21,8 +21,8 @@
 		echo '&nbsp;&nbsp;&mdash;&nbsp;&nbsp;' . get_the_excerpt();
 
 		// Date and times
-		$startdate  = get_post_meta( $post_id, 'eventi_startdate', true );
-		$enddate    = get_post_meta( $post_id, 'eventi_enddate', true );
+		$startdate  = strtotime( get_post_meta( $post_id, 'eventi_startdate', true ) );
+		$enddate    = strtotime( get_post_meta( $post_id, 'eventi_enddate', true ) );
 		$dateformat = get_option( 'date_format' );
 
 		echo '&nbsp;&nbsp;&mdash;&nbsp;&nbsp;' . date_i18n( $dateformat, $startdate );
