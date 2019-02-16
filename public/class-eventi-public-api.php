@@ -21,7 +21,7 @@ class Eventi_Public_Api {
 		// WP_Query arguments
 		$args = array(
 			'post_type' => array( 'eventi_event' ),
-			// 'post_status' => array( 'publish' ),
+			'post_status' => array( 'publish' ),
 			'nopaging'  => true,
 			// 'order'       => 'ASC',
 			// 'orderby'     => 'menu_order',
@@ -38,12 +38,13 @@ class Eventi_Public_Api {
 				$post_list->the_post();
 				$post_id     = get_the_id();
 				$post_data[] = array(
-					'id'        => $post_id,
-					'title'     => get_the_title(),
-					'startdate' => date_i18n( 'Y-m-d', get_post_meta( $post_id, 'eventi_startdate', true ) ),
-					'starttime' => get_post_meta( $post_id, 'eventi_starttime', true ),
-					'enddate'   => date_i18n( 'Y-m-d', get_post_meta( $post_id, 'eventi_enddate', true ) ),
-					'endtime'   => get_post_meta( $post_id, 'eventi_endtime', true ),
+					'id'          => $post_id,
+					'name'        => get_the_title(),
+					'description' => get_the_excerpt(),
+					'startDate'   => get_post_meta( $post_id, 'eventi_startdate', true ),
+					'starttime'   => get_post_meta( $post_id, 'eventi_starttime', true ),
+					'endDate'     => get_post_meta( $post_id, 'eventi_enddate', true ),
+					'endtime'     => get_post_meta( $post_id, 'eventi_endtime', true ),
 				);
 			}
 		} else {
