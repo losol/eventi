@@ -11,9 +11,11 @@
 
 ?>
 
+
 <article id="event-<?php the_ID(); ?>" <?php post_class(); ?>>
 <div class="entry-content">
 	<?php
+		$post_id = get_the_ID();
 		if ( is_sticky() && is_home() && ! is_paged() ) {
 			printf( '<span class="sticky-post">%s</span>', _x( 'Featured', 'post', 'eventi' ) );
 		}
@@ -27,7 +29,7 @@
 
 		echo '&nbsp;&nbsp;&mdash;&nbsp;&nbsp;' . date_i18n( $dateformat, $startdate );
 		if ( $startdate !== $enddate ) {
-			echo '-' . date_i18n( $dateformat, $enddate );
+			echo ' - ' . date_i18n( $dateformat, $enddate );
 		}
 
 	?>
