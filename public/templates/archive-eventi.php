@@ -42,6 +42,7 @@ get_header();
 				<div class="entry-content">
 				<?php
 				$posts->the_post();
+				$post_id = get_the_id();
 
 				$startdate  = strtotime( get_post_meta( $post_id, 'eventi_startdate', true ) );
 				$enddate    = strtotime( get_post_meta( $post_id, 'eventi_enddate', true ) );
