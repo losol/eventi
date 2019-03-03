@@ -35,7 +35,7 @@ class Eventi_Public {
 	function load_event_archive_template( $template ) {
 		global $post;
 
-		if ( is_archive() && $template !== locate_template( array( 'archive-eventi.php' ) ) ) {
+		if ( $post->post_type == 'eventi' && is_archive() && $template !== locate_template( array( 'archive-eventi.php' ) ) ) {
 			return plugin_dir_path( __FILE__ ) . 'templates/archive-eventi.php';
 		}
 
